@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入 debounce -->
+  <script src="debounce.js"></script>
+</head>
+
+<body>
+  <div id="content"
+    style="height:150px;line-height:150px;text-align:center; color: #fff;background-color:#ccc;font-size:80px;">
+  </div>
+  <button id='btn'>取消防抖</button>
+  <script>
+    let num = 1;
+    const btn = document.getElementById('btn');
+    const content = document.getElementById('content');
+    function count () {
+      content.innerHTML = num++ ;
+    }
+    const mainFunc = debounce(count, 1000, true)
+    content.onmousemove = mainFunc;
+    btn.onclick = mainFunc.cancel;
+  </script>
+</body>
+
+</html>
