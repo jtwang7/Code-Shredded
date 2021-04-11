@@ -1,28 +1,28 @@
 class MyPromise {
   constructor(executor) {
-    this.state = 'pending';
     this.value = undefined;
     this.error = undefined;
+    this.state = 'pending';
 
     this.onFulfilledCallbacks = [];
     this.onRejectedCallbacks = [];
 
-    this.resolve = val => {
+    let resolve = val => {
       if (this.state === 'pending') {
-        this.state = 'fulfilled';
         this.value = val;
+        this.state = 'fulfilled';
         this.onFulfilledCallbacks.forEach(fn => fn());
       }
-    }
-    this.reject = err => {
+    };
+    let reject = err => {
       if (this.state === 'pending') {
-        this.state = 'rejected';
         this.error = err;
+        this.state = 'rejected';
         this.onRejectedCallbacks.forEach(fn => fn());
       }
-    }
+    };
 
-    executor(this.resolve, this.reject);
+    executor(resolve, reject);
   }
 
   then(onFulfilled, onRejected) {
@@ -35,39 +35,39 @@ class MyPromise {
           try {
             let x = onFulfilled(this.value);
             this._resolvePromise(promise2, x, resolve, reject);
-          } catch (err) {
-            reject(err);
+          } catch (e) {
+            reject(e);
           }
-        }, 0);
+        }, 0)
       }
       if (this.state === 'rejected') {
         setTimeout(() => {
           try {
             let x = onRejected(this.error);
             this._resolvePromise(promise2, x, resolve, reject);
-          } catch (err) {
-            reject(err);
+          } catch (e) {
+            reject(e);
           }
-        }, 0);
+        }, 0)
       }
       if (this.state === 'pending') {
         this.onFulfilledCallbacks.push(() => {
           setTimeout(() => {
             try {
-              let x = onFulfilled(this.value);
+              let x = onFulfilled(this.value)
               this._resolvePromise(promise2, x, resolve, reject);
-            } catch (err) {
-              reject(err);
+            } catch (e) {
+              reject(e);
             }
           }, 0)
         });
         this.onRejectedCallbacks.push(() => {
           setTimeout(() => {
             try {
-              let x = onRejected(this.error);
+              let x = onRejected(this.error)
               this._resolvePromise(promise2, x, resolve, reject);
-            } catch (err) {
-              reject(err)
+            } catch (e) {
+              reject(e);
             }
           }, 0)
         });
@@ -84,7 +84,7 @@ class MyPromise {
 
     let called = false;
 
-    if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+    if (x !== null && (typeof x === 'function' || typeof x === 'object')) {
       try {
         let then = x.then;
         if (typeof then === 'function') {
@@ -98,12 +98,12 @@ class MyPromise {
             reject(err);
           })
         } else {
-          resolve(x)
+          resolve(x);
         }
-      } catch (err) {
+      } catch (e) {
         if (called) return;
         called = true;
-        reject(err);
+        reject(e);
       }
     } else {
       resolve(x);
@@ -111,56 +111,9 @@ class MyPromise {
   }
 }
 
-MyPromise.resolve = function (val) {
-  if (val instanceof MyPromise) return val;
-  return new MyPromise((resolve, reject) => {
-    resolve(val);
-  })
-}
 
-MyPromise.reject = function (err) {
-  return new MyPromise((resolve, reject) => {
-    reject(err);
-  })
-}
-
-MyPromise.catch = function (onRejected) {
-  return this.then(null, onRejected)
-}
-
-MyPromise.all = function (promises) {
-  return new MyPromise((resolve, reject) => {
-    const lens = promises.length;
-    let arr = new Array(lens);
-    let count = 0;
-    function processData(data, idx) {
-      arr[idx] = data;
-      count++;
-      if (count === lens) resolve(arr);
-    }
-    promises.forEach((item, idx) => {
-      item.then(res => {
-        processData(res, idx);
-      }, err => reject(err))
-    })
-  })
-}
-
-MyPromise.race = function (promises) {
-  return new MyPromise((resolve, reject) => {
-    promises.forEach(item => {
-      item.then(res => resolve(res), err => reject(err))
-    })
-  })
-}
-
-MyPromise.finally = function (fn) {
-  return this.then(
-    val => MyPromise.resolve(fn()).then(() => val),
-    err => MyPromise.resolve(fn()).then(() => err)
-  )
-}
-
+// npm i -g promises-aplus-tests
+// promises-aplus-tests MyPromise1.js 
 MyPromise.defer = MyPromise.deferred = function () {
   let dfd = {};
   dfd.promise = new MyPromise((resolve, reject) => {
@@ -170,3 +123,51 @@ MyPromise.defer = MyPromise.deferred = function () {
   return dfd;
 }
 module.exports = MyPromise;
+
+
+MyPromise.resolve = function (val) {
+  return new MyPromise((resolve, reject) => {
+    resolve(val)
+  })
+}
+MyPromise.reject = function (err) {
+  return new MyPromise((resolve, reject) => {
+    reject(err)
+  })
+}
+MyPromise.catch = function (fn) {
+  return this.then(null, fn)
+}
+MyPromise.all = function (promises) {
+  return new MyPromise((resolve, reject) => {
+    let res = [];
+    let count = 0;
+    function store(data, idx) {
+      res[idx] = data;
+      count++;
+      count === promises.length && resolve(res)
+    }
+    promises.forEach((item, idx) => {
+      item.then(
+        val => store(val, idx),
+        err => reject(err)
+      )
+    })
+  })
+}
+MyPromise.race = function (promises) {
+  return new MyPromise((resolve, reject) => {
+    promises.forEach(item => {
+      item.then(
+        val => resolve(val),
+        err => reject(err),
+      )
+    })
+  })
+}
+MyPromise.finally = function (fn) {
+  return this.then(
+    val => MyPromise.resolve(fn()).then(() => val),
+    err => MyPromise.resolve(fn()).then(() => err)
+  )
+}

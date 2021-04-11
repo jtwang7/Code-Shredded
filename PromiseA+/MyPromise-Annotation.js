@@ -103,7 +103,8 @@ class MyPromise {
       reject(new TypeError('Chaining cycle detected for promise'));
       return;
     }
-    // then 方法内可能存在多次调用 resolve/reject 的情况, 我们只期望执行最开始的 resolve/reject;
+    // Promise A+ 2.3.3.3.3 规定:
+    // 如果同时调用resolvePromise和rejectPromise或对同一个参数进行了多次调用，则第一个调用优先，其他任何调用都将被忽略。
     // 通过 called 变量维护上述操作;
     let called = false;
     // 返回值是 object 或 function 类型且不为空时, 进一步判断;
@@ -117,11 +118,12 @@ class MyPromise {
           // 是函数说明 x 是 MyPromise 实例, 通过 call 立即调用执行(因为下一个 then 要的是值而不是 MyPromise 实例);
           // then.call(thisArg, successFunc, rejectFunc);
           then.call(x, val => {
-            // 若 called 为 true 则说明执行过 resolve/reject, 不再执行;
+            // resolvePromise 被调用, 忽略后续的 resolvePromise 和 rejectPromise 调用
             if (called) return;
             called = true;
             this._resolvePromise(x, val, resolve, reject);
           }, err => {
+            // rejectPromise 被调用, 忽略后续的 resolvePromise 和 rejectPromise 调用
             if (called) return;
             called = true;
             reject(err);
@@ -130,6 +132,9 @@ class MyPromise {
           resolve(x)
         }
       } catch (err) {
+        // Promise A+ 2.3.3.3.4 规定:
+        // 如果调用后抛出异常e, 若已调用resolvePromise或rejectPromise, 则将其忽略(called 维护);
+        // 否则, 拒绝并暴露错误信息;
         if (called) return;
         called = true;
         reject(err);
@@ -164,21 +169,22 @@ MyPromise.catch = function (onRejected) {
 // 当有一个 promise 对象 reject 时执行 onRejected 方法;
 // 成功执行的结果按 promise 对象数组的顺序来排放;
 MyPromise.all = function (promises) {
-  const lens = promises.length;
-  let arr = new Array(lens);
-  let count = 0;
-  // 依据索引顺序存放;
-  function processData(data, idx, resolve) {
-    arr[idx] = data;
-    count++;
-    // 若所有 promises 均成功执行回调, 返回结果数组;
-    if (count === lens) resolve(arr);
-  }
   return new MyPromise((resolve, reject) => {
+    const lens = promises.length;
+    let arr = new Array(lens);
+    let count = 0;
+    // 依据索引顺序存放;
+    function processData(data, idx) {
+      arr[idx] = data;
+      count++;
+      // 若所有 promises 均成功执行回调, 返回结果数组;
+      // processData() 写在 MyPromise 内就不需要传递 resolve() 了, 会自动向上索引引用;
+      if (count === lens) resolve(arr);
+    }
     promises.forEach((item, idx) => {
       // 遍历 promises 数组, fulfilled 执行成功回调, 存放数据, rejected 执行拒绝回调, 直接退出遍历;
       item.then(res => {
-        processData(res, idx, resolve);
+        processData(res, idx);
       }, err => reject(err))
     })
   })
