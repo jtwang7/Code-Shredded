@@ -4,6 +4,7 @@ function debounce(func, wait, immediate = false) {
     const context = this;
     const args = [...arguments];
 
+    // 必须在事件触发前清楚计时器, 让原有计时器失效, 设定新的计时器
     if (timer) { clearTimeout(timer) };
     if (immediate) {
       // 立即执行: 和非立即执行(简易版)相反即可;
