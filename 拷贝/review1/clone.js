@@ -1,14 +1,11 @@
-// 浅拷贝实现
-// 浅拷贝实现关键: 1. 返回一个新的对象; 2.循环赋值
-function clone(obj) {
-  // 1
-  let copy = Array.isArray(target) ? [] : {};;
-  for (let [key,value] of Object.entries(obj)) {
-    // 2
-    copy[key] = value;
+function clone(target) {
+  let obj = Array.isArray(target) ? [] : {};
+  for (let [key, value] of Object.entries(target)) {
+    Reflect.set(obj, key, value);
   }
-  return copy;
+  return obj;
 }
+
 
 // test
 // 源对象

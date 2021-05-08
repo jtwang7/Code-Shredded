@@ -10,7 +10,7 @@ function deepClone(target, map = new Map()) {
     for (let [key, value] of Object.entries(target)) {
       // value 是被拷贝的对象, 检查它是否存在(被拷贝过), 若存在则直接返回该值, 不需要拷贝;
       if (map.get(value)) {
-        return value;
+        return map.get(value);
       }
       // 若不存在, 则将其添加至索引表, 并对其深拷贝; 
       // 此处 obj 刚传入时是空对象, 但由于是引用, 所以后续改变 obj 也会更新表内的值;

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="content"
+    style="height:150px;line-height:150px;text-align:center; color: #fff;background-color:#ccc;font-size:80px;"></div>
+  <script type="module">
+    import { debounce } from './防抖.js'
+
+    let count = 1;
+    const content = document.getElementById("content");
+    function add() {
+      content.innerHTML = count++;
+    }
+    content.onmousemove = debounce(add, 1000);
+  </script>
+</body>
+
+</html>

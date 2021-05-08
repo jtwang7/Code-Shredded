@@ -8,7 +8,7 @@ function throttle(func, wait, options={}) {
 
   // 不能同时设置禁用第一次执行和末尾回调
   if ((options.leading === false) && (options.trailing === false)) {
-    throw new Error('options 参数不能同时为 true')
+    throw new Error('options 参数不能同时为 false')
   }
 
   let mainFunc =  function() {
