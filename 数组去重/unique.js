@@ -1,4 +1,5 @@
 // 参考文章：https://segmentfault.com/a/1190000016418021
+// 数组去重总结：https://github.com/jtwang7/Code-Shredded/issues/3
 const testArr = [1, 1, 'true', 'true', true, true, 15, 15, false, false, undefined, undefined, null, null, NaN, NaN, 'NaN', 0, 0, 'a', 'a', {}, {}];
 
 // 1. Set
@@ -64,7 +65,6 @@ function unique5(arr) {
 // {} 无法去重
 function unique6(arr) {
   return arr.reduce((pre, cur) => {
-    console.log(pre);
     return pre.includes(cur) ? pre : [...pre, cur]
   }, [])
 }
@@ -117,3 +117,21 @@ function unique9(arr) {
 }
 // TEST
 // console.log(unique9(testArr));
+
+// 10. Map
+// 全部去重
+function unique10(arr) {
+  let map = new Map();
+  let res = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (map.has(typeof arr[i] + arr[i])) {
+      map.set(typeof arr[i] + arr[i], true);
+    } else {
+      map.set(typeof arr[i] + arr[i], false);
+      res.push(arr[i])
+    }
+  }
+  return res;
+}
+// TEST
+// console.log(unique10(testArr));
