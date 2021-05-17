@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body,
+    html {
+      height: 100%;
+    }
+
+    .header {
+      height: 40px;
+      background-color: lightblue;
+    }
+
+    .footer {
+      height: 60px;
+      background-color: lightcoral;
+    }
+
+    .main {
+      height: calc(100% - 100px);
+      /* 关键代码 */
+      display: flex;
+    }
+
+    .left {
+      height: 100%;
+      background-color: lightgreen;
+      /* 关键代码 */
+      order: 0;
+      flex: 0 0 200px;
+    }
+
+    .right {
+      height: 100%;
+      background-color: lightpink;
+      /* 关键代码 */
+      order: 1;
+      flex: 1 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">header</div>
+  <div class="main">
+    <div class='left'>left</div>
+    <div class='right'>right</div>
+  </div>
+  <div class="footer">footer</div>
+</body>
+</html>
