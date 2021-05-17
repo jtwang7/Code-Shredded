@@ -9,7 +9,7 @@ function curry(fn, arr = []) {
   // fn.length <=> arguments.callee.length : 获取函数形参个数(不包含默认值)
   let lens = fn.length;
   // 返回一个函数接受剩余参数
-  return function func (...args) {
+  return function func(...args) {
     // 将剩余参数拼接到参数列表
     arr = arr.concat(args)
     if (arr.length < lens) {
@@ -21,6 +21,17 @@ function curry(fn, arr = []) {
     } else {
       return fn.apply(this, arr)
     }
+  }
+}
+
+
+// 高颜值写法
+function curry1(fn, arr = []) {
+  return (...args) => {
+    arr = arr.concat(args);
+    return (arr.length < fn.length) ?
+      curry.call(this, fn, arr) :
+      fn.call(this, ...arr)
   }
 }
 
