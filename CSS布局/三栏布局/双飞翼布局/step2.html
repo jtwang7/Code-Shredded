@@ -5,20 +5,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <!-- 样式设置 -->
   <style>
-    /* 清除默认 margin, padding */
     * {
       margin: 0;
       padding: 0;
     }
+    /* 基础样式设置 */
+    /* 由于 div 独占一行，因此 width 默认继承浏览器视口宽度，暂时不予考虑。 */
+    .header {
+      background-color: lightblue;
+      /* 固定高度 */
+      height: 40px;
+    }
+    .footer {
+      background-color: lightgreen;
+      /* 固定高度 */
+      height: 60px;
+    }
   </style>
 </head>
 <body>
-  <!-- 1. 创建通用的三栏布局模板 -->
   <div class='header'>header</div>
   <div class='main'>
-    <!-- center 为主要内容，写前面优先渲染 -->
     <div class='center'>center</div>
     <div class='left'>left</div>
     <div class='right'>right</div>

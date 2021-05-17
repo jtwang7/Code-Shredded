@@ -1,74 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    /* 知识点：
-     * 1. 清除浮动方式
-     * 2. 元素宽高继承机制
-     * 3. % 的使用
-     */
-    /* 难点：布局高度自适应 */
     * {
       margin: 0;
       padding: 0;
     }
-    html, body {
+    /* 继承浏览器视口高度 */
+    body, html {
       height: 100%;
-    }
-    .main {
-      height: calc(100% - 100px);
-    }
-    /* 伪类实现浮动清除 */
-    .clearfix::after {
-      content: '';
-      display: block;
-      clear: both;
     }
     .header {
-      height: 40px;
       background-color: lightblue;
+      height: 40px;
     }
     .footer {
-      height: 60px;
       background-color: lightgreen;
+      height: 60px;
     }
     .center {
-      width: 100%;
-      height: 100%;
       background-color: lightsalmon;
+      /* 高度自适应 */
+      height: 100%;
+      width: 100%;
       float: left;
     }
     .left {
-      width: 200px;
-      height: 100%;
       background-color: lightgray;
+      /* 高度自适应 */
+      height: 100%;
+      width: 200px;
       float: left;
       margin-left: -100%;
     }
     .right {
-      width: 300px;
-      height: 100%;
       background-color: lightyellow;
+      /* 高度自适应 */
+      height: 100%;
+      width: 300px;
       float: left;
       margin-left: -300px;
     }
+    .main {
+      overflow: hidden;
+      /* 除去 header 和 footer 的固定高度 */
+      /* calc() 计算时注意表达式内空格是必需的 */
+      height: calc(100% - 100px);
+    }
     .inner {
-      margin-left: 200px;
-      margin-right: 300px;
+      margin: 0 300px 0 200px;
     }
   </style>
 </head>
-
 <body>
   <div class='header'>header</div>
-  <div class='main clearfix'>
-    <!-- center 为主要内容，写前面优先渲染 -->
+  <div class='main'>
     <div class='center'>
+      <!-- 添加 inner 元素 -->
       <div class='inner'>center</div>
     </div>
     <div class='left'>left</div>
@@ -76,5 +68,4 @@
   </div>
   <div class='footer'>footer</div>
 </body>
-
 </html>

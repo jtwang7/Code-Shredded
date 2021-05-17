@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: lightblue;
+      height: 40px;
+    }
+    .footer {
+      background-color: lightgreen;
+      height: 60px;
+    }
+    .center {
+      background-color: lightsalmon;
+      height: 500px;
+      width: 100%;
+      float: left;
+    }
+    .left {
+      background-color: lightgray;
+      height: 500px;
+      width: 200px;
+      float: left;
+    }
+    .right {
+      background-color: lightyellow;
+      height: 500px;
+      width: 300px;
+      float: left;
+    }
+    /* 清除浮动 */
+    .main {
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class='header'>header</div>
+  <div class='main'>
+    <div class='center'>center</div>
+    <div class='left'>left</div>
+    <div class='right'>right</div>
+  </div>
+  <div class='footer'>footer</div>
+</body>
+</html>

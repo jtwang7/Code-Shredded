@@ -1,80 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    /* 知识点：
-     * 1. 清除浮动方式
-     * 2. 元素宽高继承机制
-     * 3. % 的使用
-     */
-    /* 难点：布局高度自适应 */
     * {
       margin: 0;
       padding: 0;
     }
-    html, body {
-      height: 100%;
-    }
-    .main {
-      height: calc(100% - 100px);
-    }
-    /* 伪类实现浮动清除 */
-    .clearfix::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
     .header {
-      height: 40px;
       background-color: lightblue;
+      height: 40px;
     }
     .footer {
-      height: 60px;
       background-color: lightgreen;
+      height: 60px;
     }
     .center {
-      width: 100%;
-      height: 100%;
       background-color: lightsalmon;
+      height: 500px;
+      width: 100%;
       float: left;
     }
     .left {
-      width: 200px;
-      height: 100%;
       background-color: lightgray;
+      height: 500px;
+      width: 200px;
       float: left;
+      /* 利用 maring-left 左移一个 center 的宽度 */
       margin-left: -100%;
     }
     .right {
-      width: 300px;
-      height: 100%;
       background-color: lightyellow;
+      height: 500px;
+      width: 300px;
       float: left;
+      /* 利用 maring-left 左移一个 right 的宽度 */
       margin-left: -300px;
     }
-    .inner {
-      margin-left: 200px;
-      margin-right: 300px;
+    .main {
+      overflow: hidden;
     }
   </style>
 </head>
-
 <body>
   <div class='header'>header</div>
-  <div class='main clearfix'>
-    <!-- center 为主要内容，写前面优先渲染 -->
-    <div class='center'>
-      <div class='inner'>center</div>
-    </div>
+  <div class='main'>
+    <div class='center'>center</div>
     <div class='left'>left</div>
     <div class='right'>right</div>
   </div>
   <div class='footer'>footer</div>
 </body>
-
 </html>

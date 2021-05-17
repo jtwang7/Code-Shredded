@@ -7,70 +7,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    /* 知识点：
-     * 1. 清除浮动方式
-     * 2. 元素宽高继承机制
-     * 3. % 的使用
-     */
-    /* 难点：布局高度自适应 */
     * {
       margin: 0;
       padding: 0;
     }
-    html, body {
+
+    body,
+    html {
       height: 100%;
     }
-    .main {
-      height: calc(100% - 100px);
-    }
-    /* 伪类实现浮动清除 */
-    .clearfix::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
+
     .header {
       height: 40px;
       background-color: lightblue;
     }
+
     .footer {
       height: 60px;
-      background-color: lightgreen;
+      background-color: lightcoral;
     }
-    .center {
-      width: 100%;
-      height: 100%;
-      background-color: lightsalmon;
-      float: left;
-    }
-    .left {
-      width: 200px;
-      height: 100%;
-      background-color: lightgray;
-      float: left;
-      margin-left: -100%;
-    }
-    .right {
-      width: 300px;
-      height: 100%;
-      background-color: lightyellow;
-      float: left;
-      margin-left: -300px;
-    }
-    .inner {
+
+    .main {
+      height: calc(100% - 100px);
+      /* 将 main 压缩到中间显示，预留左右栏空位 */
       margin-left: 200px;
       margin-right: 300px;
+    }
+    .main::after {
+      /* 不能用 overflow: hidden 清除浮动，因为这样 main 只能显示 center，left 和 right 超出显示范围被遮盖 */
+      clear: both;
+    }
+
+    .center {
+      height: 100%;
+      width: 100%;
+      background-color: lightgoldenrodyellow;
+      float: left;
+    }
+
+    .left {
+      height: 100%;
+      width: 200px;
+      background-color: lightgreen;
+      float: left;
+      margin-left: -100%;
+      /* 相对自己，左移自身宽度 */
+      position: relative;
+      left: -200px;
+    }
+
+    .right {
+      height: 100%;
+      width: 300px;
+      background-color: lightslategray;
+      float: left;
+      margin-left: -300px;
+      /* 相对自己，右移自身宽度 */
+      position: relative;
+      right: -300px;
     }
   </style>
 </head>
 
 <body>
   <div class='header'>header</div>
-  <div class='main clearfix'>
-    <!-- center 为主要内容，写前面优先渲染 -->
-    <div class='center'>
-      <div class='inner'>center</div>
-    </div>
+  <div class='main'>
+    <div class='center'>center</div>
     <div class='left'>left</div>
     <div class='right'>right</div>
   </div>
