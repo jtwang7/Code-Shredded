@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body,
+    html {
+      height: 100%;
+    }
+
+    .header {
+      height: 40px;
+      background-color: lightblue;
+    }
+
+    .footer {
+      height: 60px;
+      background-color: lightcoral;
+    }
+
+    .main {
+      height: calc(100% - 100px);
+    }
+
+    .left {
+      height: 100%;
+      background-color: lightgreen;
+      /* 关键代码 */
+      float: left;
+      width: 300px;
+      margin-left: -100%;
+    }
+
+    .right {
+      height: 100%;
+      background-color: lightpink;
+      /* 关键代码 */
+      float: left;
+      width: 100%;
+    }
+
+    /* 关键代码 */
+    .clearfix::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    /* 关键代码 */
+    .inner {
+      margin-left: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">header</div>
+  <div class="main clearfix">
+    <div class='right'>
+      <div class='inner'>right</div>
+    </div>
+    <div class='left'>left</div>
+  </div>
+  <div class="footer">footer</div>
+</body>
+
+</html>
