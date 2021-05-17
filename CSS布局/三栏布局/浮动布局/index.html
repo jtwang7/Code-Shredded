@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body,
+    html {
+      height: 100%;
+    }
+
+    .header {
+      height: 40px;
+      background-color: lightblue;
+    }
+
+    .footer {
+      height: 60px;
+      background-color: lightcoral;
+    }
+
+    .main {
+      height: calc(100% - 100px);
+    }
+
+    .center {
+      height: 100%;
+      background-color: lightgoldenrodyellow;
+    }
+
+    .left {
+      height: 100%;
+      width: 200px;
+      background-color: lightgreen;
+      /* 关键代码 */
+      float: left;
+    }
+
+    .right {
+      height: 100%;
+      width: 300px;
+      background-color: lightpink;
+      /* 关键代码 */
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='header'>header</div>
+  <div class='main'>
+    <!-- left/right 需要写在 center 前面 -->
+    <div class='left'>left</div>
+    <div class='right'>right</div>
+    <!--中间栏放最后-->
+    <div class='center'>center</div>
+  </div>
+  <div class='footer'>footer</div>
+</body>
+
+</html>
