@@ -5,7 +5,7 @@ function jsonp({ url, params, callback }) {
     // 将回调挂载在全局对象上
     window[callback] = (data) => {
       resolve(data);
-      document.removeChild(script);
+      document.body.removeChild(script);
     }
     // 组织参数字符串
     params = { ...params, callback, };
@@ -16,7 +16,7 @@ function jsonp({ url, params, callback }) {
     // 赋值到src属性
     script.src = `${url}?${query.join('&')}`;
     // 将<script>添加到DOM树
-    document.appendChild(script);
+    document.body.appendChild(script);
   })
 }
 
