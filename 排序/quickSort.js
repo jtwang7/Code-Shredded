@@ -22,8 +22,8 @@ function quickSort(arr) {
   return arr;
 
   function main(arr, left, right) {
-    // 递归终止条件: 不需要返回值, 因为直接修改的arr;
-    if (arr.length === 1) return;
+    // 本代码中递归的终止条件隐藏：
+    // 递归设置为只有当左指针小于基准索引左侧或右指针大于基准索引右侧时，才继续递归，若递归到最底层，只有基准值而不存在左右区间时，递归自然就会退出。
     let index = partition(arr, left, right);
     // 递归左数组
     if (left < index - 1) {
