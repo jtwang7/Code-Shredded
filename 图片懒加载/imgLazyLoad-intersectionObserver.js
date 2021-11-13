@@ -1,4 +1,4 @@
-function imgLazyLoad() {
+const imgLazyLoad = (function () {
   let imgList = [...document.querySelectorAll('img[data-src]')]; // 基于 css 属性选择器，查找所有要懒加载的 image 元素
   // 图片加载的函数
   const loadImage = (imgElem) => {
@@ -24,4 +24,4 @@ function imgLazyLoad() {
   imgList.forEach((item) => {
     intersectionObserver.observe(item); // 将每个懒加载的 image 元素，添加到 observer 的监听列表中
   })
-}
+})();
