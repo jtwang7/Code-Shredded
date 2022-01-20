@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 行内元素水平居中: 在父级元素上设置 text-align:center，强调是父级元素而非目标元素 */
+    #parent1 {
+      text-align: center;
+    }
+
+    /* 块级元素水平居中：在目标元素上设置 margin:0 auto，目标元素的 width 必须显示设置(固定值/百分比均可)，否则会自动继承父元素宽度，导致占满父元素 */
+    #child2 {
+      width: 20%;
+      margin: 0 auto;
+    }
+
+    /* 块级元素水平居中：目标元素设置 display:table，然后再设置 margin:0 auto */
+    #child3 {
+      display: table;
+      margin: 0 auto;
+    }
+
+    /* 块级元素水平居中：flex 布局, 父元素设置 display:flex; justify-content:center; */
+    #parent4 {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 块级元素水平居中：目标元素设置 display:inline-block，父元素上设置 text-align:center */
+    #parent5 {
+      text-align: center;
+    }
+    #child5 {
+      display: inline-block;
+    }
+
+    /* 
+      块级元素水平居中(需知目标元素的宽)：目标元素 position + left + 负margin-left
+      方法：(作用于目标元素) position(relative/position/fixed均可，区别在于偏移时参考对象不同) + left(50%) + margin-left(-...px)
+      原理：
+      1. left 偏移的参考目标由 position 决定，以当前为例，position:relative 则参考自身，left:50% 意味着将目标元素相对自身起始位置偏移 50%。若 position: absolute，则相对父元素起始位置偏移。
+      2. margin 偏移参考目标同上，margin-left: (1/2)width 意味着往回偏移半个目标元素的长度。
+    */
+    #child6 {
+      position: relative;
+      width: 300px;
+      left: 50%;
+      margin-left: -150px;
+    }
+
+    /* 
+      块级元素水平居中：
+      方法：(作用于目标元素) position(relative/position/fixed均可，区别在于偏移时参考对象不同) + left/right(0) + margin(auto)
+      原理：形象理解就是通过 left&right = 0，将目标元素的可活动区域拉长(原先可活动区域 = width)，再通过 margin 自动均分左右空间，让目标居中。
+    */
+    #child7 {
+      position: relative;
+      left: 0;
+      right: 0;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    /* 
+      块级元素水平居中：
+      方法：(作用于目标元素) position(relative/position/fixed均可，区别在于偏移时参考对象不同) + left(50%) + transform(translateX(-50%))
+      原理：
+      1. left 偏移的参考目标由 position 决定，以当前为例，position:relative 则参考自身，left:50% 意味着将目标元素相对自身起始位置偏移 50%。若 position: absolute，则相对父元素起始位置偏移。
+      2. tranlateX 偏移参考目标自身，translateX(-50%) 意味着往回偏移半个目标元素的长度。
+      原理和 position + left + 负margin-left 类似，但它不需要手动计算往回的偏移量，因此更加方便。
+    */
+    #child8 {
+      position: relative;
+      left: 50%;
+      width: 300px;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <!-- 行内元素水平居中 -->
+    <div id='parent1' style="background-color: aquamarine;">
+      <span id='child1' style="background-color: beige;">行内元素</span>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent2' style="background-color: aquamarine;">
+      <div id='child2' style="background-color: beige;">块级元素</div>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent3' style="background-color: aquamarine;">
+      <div id='child3' style="background-color: beige;">块级元素</div>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent4' style="background-color: aquamarine;">
+      <div id='child4' style="background-color: beige;">块级元素</div>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent5' style="background-color: aquamarine;">
+      <div id='child5' style="background-color: beige;">块级元素</div>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent6' style="background-color: aquamarine;">
+      <div id='child6' style="background-color: beige;">块级元素</div>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent7' style="background-color: aquamarine;">
+      <div id='child7' style="background-color: beige;">块级元素</div>
+    </div>
+
+    <!-- 块级元素水平居中 -->
+    <div id='parent8' style="background-color: aquamarine;">
+      <div id='child8' style="background-color: beige;">块级元素</div>
+    </div>
+  </div>
+</body>
+
+</html>
