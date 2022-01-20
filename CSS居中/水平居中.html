@@ -7,6 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    /* 总结CSS水平居中的几大类 */
+    /* 
+      1. 行内元素：父元素的text-align:center属性
+      2. 块级元素：
+        2.1. 子元素display:inline-block + 父元素text-align:center (转为行内元素，然后应用行内元素的水平居中方法)
+        2.2. flex布局
+        2.3. position + (left+负margin)/(transform)/(left&right+margin)
+     */
+
     /* 行内元素水平居中: 在父级元素上设置 text-align:center，强调是父级元素而非目标元素 */
     #parent1 {
       text-align: center;
