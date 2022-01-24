@@ -137,7 +137,7 @@ class MyPromise {
             reject(err);
           })
         } else {
-          resolve(x)
+          resolve(x);
         }
       } catch (err) {
         // Promise A+ 2.3.3.3.4 规定:
