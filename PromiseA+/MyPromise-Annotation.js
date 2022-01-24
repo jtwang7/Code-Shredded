@@ -50,7 +50,13 @@ class MyPromise {
           try {
             // 接收回调返回值作为下一次 then() 回调函数的参数
             let x = onFulfilled(this.value);
-            // 判断回调返回值
+            /**
+             * 判断回调返回值, _resolvePromise 做了以下事情：
+             * 1. 判断是否存在循环引用
+             * 2. 判断回调返回值 x 是否是 Promise：
+             *    若是则递归 then()；
+             *    若不是则用 resolve() 传递出返回值；[上一步回调只是计算出了返回值，没有 resolve 结果]
+             */
             this._resolvePromise(promise2, x, resolve, reject);
           } catch (err) {
             reject(err);
@@ -117,8 +123,10 @@ class MyPromise {
         if (typeof then === 'function') {
           // 是函数说明 x 是 MyPromise 实例, 通过 call 立即调用执行(因为下一个 then 要的是值而不是 MyPromise 实例);
           // then.call(thisArg, successFunc, rejectFunc);
+          // 此处 thisArg === x，是因为 x.then 重新赋值给了 then，导致引用丢失，所以要用 call 重新绑定调用对为 x
           then.call(x, val => {
             // resolvePromise 被调用, 忽略后续的 resolvePromise 和 rejectPromise 调用
+            // resolvePromise 被多次调用的原因是因为 then() 方法内本身就有调用了一次 _resolvePromise()
             if (called) return;
             called = true;
             this._resolvePromise(x, val, resolve, reject);
