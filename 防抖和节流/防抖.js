@@ -1,20 +1,39 @@
-export function debounce(fn, wait, immediate=false) {
-  let timer = null;
-  return function (...args) {
-    const ctx = this;
-    if (timer) clearTimeout(timer);
+export function debounce(func, wait, immediate = false) {
+  let timer = null, result = null;
+  let mainFunc = function () {
+    const context = this;
+    const args = [...arguments];
+
+    // 必须在事件触发前清楚计时器, 让原有计时器失效, 设定新的计时器
+    if (timer) { clearTimeout(timer) };
     if (immediate) {
+      // 立即执行: 和非立即执行(简易版)相反即可;
+      // 当 timer 为 null 时, 可立即执行; 同时创建计时器, 计时完成后再将 timer 置为 null;
       let callNow = !timer;
-      timer = setTimeout(()=>{
+      timer = setTimeout(() => {
         timer = null;
       }, wait);
       if (callNow) {
-        fn.call(ctx, ...args);
+        // 立即执行可以返回函数值, 非立即执行不可以;
+        // 因为 setTimeout() 中还未完成 result 赋值, result 就被返回了, 值为 undefined;
+        result = func.apply(context, args);
       }
     } else {
-      timer = setTimeout(()=>{
-        fn.call(ctx, ...args);
-      }, wait);
+      // 同简易版防抖
+      timer = setTimeout(() => {
+        func.apply(context, args);
+      }, wait)
     }
+    return result;
   }
+
+  // 取消防抖功能
+  mainFunc.cancel = function () {
+    // 清除现有计时器, 并将计时器初始化为null;
+    clearTimeout(timer);
+    timer = null;
+    // console.log(timer);
+  }
+
+  return mainFunc;
 }
