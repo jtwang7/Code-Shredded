@@ -10,6 +10,7 @@ function wrap(callback) {
     // 返回一个Promise对象
     return new Promise((resolve, reject) => {
       // 判断是否满足条件
+      // 此处判断条件要放在 p.then() 内部，利用事件循环机制，让所有Promise都注册完成后，再执行对应的then函数。
       p.then(res => {
         // 若promise是最后一个promise对象，则获取它的结果，并传递出去
         if (promises.findIndex(promise => promise === p) === (promises.length - 1)) {
