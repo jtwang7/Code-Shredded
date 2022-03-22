@@ -1,3 +1,5 @@
+// https://segmentfault.com/a/1190000023084074
+
 type action = { type: string, payload: any }
 interface createStoreParams<T> {
   initState: T,
